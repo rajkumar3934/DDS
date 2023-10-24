@@ -507,18 +507,18 @@ def drop_all(conn):
 
 if __name__ == '__main__':
 
-    # create_database(DATABASE_NAME)
+    create_database(DATABASE_NAME)
 
     with connect_postgres(dbname=DATABASE_NAME) as conn:
         conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
-        # create_tables(conn)
-        # select_data(conn)
-        # insert_mock_data(conn)
-        # select_data(conn)
+        create_tables(conn)
+        select_data(conn)
+        insert_mock_data(conn)
+        select_data(conn)
         demonstrate_H_partition(conn)
-        # vertical_partitioning(conn)
-        # demonstrate_V_partition(conn)
+        vertical_partitioning(conn)
+        demonstrate_V_partition(conn)
 
 
         # cmd = f"UPDATE Products SET name = 'T shirt' WHERE product_id = 3;"
