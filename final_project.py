@@ -367,16 +367,16 @@ def demonstrate_H_partition(conn):
     try:
         cursor = conn.cursor()
         if conn and cursor:
-#             insert_statement = f"""
-#                 INSERT INTO {table_names[0]} (username, email, password, address, phone_number, registration_date) 
-# VALUES 
-#     ('user3', 'user3@example.com', 'password3', '789 Tmepe St, City3', '123-456-7890', '2014-01-20'),
-#     ('user4', 'user4@example.com', 'password4', '248 Dorsey St, City4', '234-567-8901', '2018-05-10');
-#                 """
+            insert_statement = f"""
+                INSERT INTO {table_names[0]} (username, email, password, address, phone_number, registration_date) 
+VALUES 
+    ('user3', 'user3@example.com', 'password3', '789 Tmepe St, City3', '123-456-7890', '2014-01-20 00:00:00'),
+    ('user4', 'user4@example.com', 'password4', '248 Dorsey St, City4', '234-567-8901', '2018-05-10 00:00:00');
+                """
 
-#             cursor.execute(insert_statement)
+            cursor.execute(insert_statement)
 
-#             conn.commit()
+            conn.commit()
 
             cursor.execute(f"SELECT * FROM {table_names[0]};")
             rows = cursor.fetchall()
