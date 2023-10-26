@@ -13,17 +13,17 @@ Shipping monitors the delivery process for orders.
 
 The project is divided into 6 parts and there is specific directory for each part including the deliverables.
 
-Part 1: Design and Implementation of a Distributed Database System 
+#### Part 1: Design and Implementation of a Distributed Database System 
 
 It includes an Entity-Relation diagram to represent the proposed schema.
 
-Part 2: Fragmentation and Replication Techniques
+#### Part 2: Fragmentation and Replication Techniques
 
-Part 3: Query Processing and Optimization Techniques
+#### Part 3: Query Processing and Optimization Techniques
 
-Part 4: Distributed Transaction Management
+#### Part 4: Distributed Transaction Management
 
-Part 5: Distributed NoSQL Database Systems Implementation
+#### Part 5: Distributed NoSQL Database Systems Implementation
 
-Part 6: A 3-Minute Video Demo
+#### Part 6: A 3-Minute Video Demo
 
