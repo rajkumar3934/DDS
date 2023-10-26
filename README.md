@@ -13,10 +13,9 @@ Shipping monitors the delivery process for orders.
 
 The project is divided into 6 parts and there is specific directory for each part including the deliverables.
 
-### Part 1: Design and Implementation of a Distributed Database System \
+### Part 1: Design and Implementation of a Distributed Database System  \
 Tools: PostgreSQL
-Tasks - 
-It includes an Entity-Relation diagram to represent the proposed schema.
+Tasks - It includes an Entity-Relation diagram to represent the proposed schema.
 
 ### Part 2: Fragmentation and Replication Techniques \
 Tools: PostgreSQL
