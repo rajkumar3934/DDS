@@ -14,27 +14,27 @@ Shipping monitors the delivery process for orders.
 The project is divided into 6 parts and there is specific directory for each part including the deliverables.
 
 ### Part 1: Design and Implementation of a Distributed Database System  \
-Tools: PostgreSQL
+Tools: PostgreSQL \
 Tasks - It includes an Entity-Relation diagram to represent the proposed schema.
 
 ### Part 2: Fragmentation and Replication Techniques \
-Tools: PostgreSQL
+Tools: PostgreSQL \
 Tasks - Horizontal and vertical fragmentation, Replication model: 
 
 ### Part 3: Query Processing and Optimization Techniques \
-Tools: 
+Tools: \
 Tasks - Query optimization, distributed indexing
 
 
 ### Part 4: Distributed Transaction Management \
-Tools: 
+Tools: \
 Tasks - 
 
 
 ### Part 5: Distributed NoSQL Database Systems Implementation \
-Tools: MongoDB, Docker
+Tools: MongoDB, Docker \
 Tasks - Data schema, Basic CRUD operations, sample queries with data retrieval operations
 
 ### Part 6: A 3-Minute Video Demo \
-Tools: 
+Tools: \
 Tasks - 
