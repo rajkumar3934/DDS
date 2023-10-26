@@ -9,4 +9,19 @@ classifications. The Orders and OrderDetails tables track user
 orders and their contents, and Transactions record payment details
 for each order. The Reviews table captures user feedback on
 products, Inventory manages stock levels and locations, and
-Shipping monitors the delivery process for orders. The following is an Entity-Relation diagram to represent the proposed schema:
+Shipping monitors the delivery process for orders. 
+
+The project is divided into 6 parts and there is specific directory for each part including the deliverables.
+Part 1: Design and Implementation of a Distributed Database System 
+It includes an Entity-Relation diagram to represent the proposed schema.
+
+Part 2: Fragmentation and Replication Techniques
+
+Part 3: Query Processing and Optimization Techniques
+
+Part 4: Distributed Transaction Management
+
+Part 5: Distributed NoSQL Database Systems Implementation
+
+Part 6: A 3-Minute Video Demo
+
