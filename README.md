@@ -15,20 +15,21 @@ The project is divided into 6 parts and there is specific directory for each par
 
 ### Part 1: Design and Implementation of a Distributed Database System  \
 Tools: PostgreSQL \
-Tasks - It includes an Entity-Relation diagram to represent the proposed schema.
+Tasks - Schema design, Table creation, Data distribution, Data insertion and retrieval. 
+It includes an Entity-Relation diagram to represent the proposed schema, attributes, keys and constraints.
 
 ### Part 2: Fragmentation and Replication Techniques \
 Tools: PostgreSQL \
-Tasks - Horizontal and vertical fragmentation, Replication model: 
+Tasks - Horizontal and vertical fragmentation, Replication model
 
 ### Part 3: Query Processing and Optimization Techniques \
-Tools: \
-Tasks - Query optimization, distributed indexing
+Tools: PostgreSQL\
+Tasks - Query optimization (Analyze and optimize data retrieval), distributed indexing (query performance)
 
 
 ### Part 4: Distributed Transaction Management \
 Tools: \
-Tasks - 
+Tasks - Acid-compliant distributed transactions, concurrency control 
 
 
 ### Part 5: Distributed NoSQL Database Systems Implementation \
