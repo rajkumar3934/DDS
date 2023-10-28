@@ -130,7 +130,7 @@ PARTITION BY RANGE (registration_date);
     transaction_id SERIAL PRIMARY KEY,
     order_id INT REFERENCES Orders(order_id),
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_status TEXT
+    transaction_status TEXT
 );
             """
             # Executing the above SQL command
@@ -261,7 +261,7 @@ VALUES
             cursor.execute(insert_statement)
 
             insert_statement = f"""
-                INSERT INTO {table_names[5]} (order_id, transaction_date, payment_status) 
+                INSERT INTO {table_names[5]} (order_id, transaction_date, transaction_status) 
 VALUES 
     (1, NOW(), 'Pending'),
     (2, NOW(), 'Accepted');
