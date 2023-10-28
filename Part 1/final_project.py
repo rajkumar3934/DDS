@@ -1,72 +1,50 @@
-
+from constants import POSTGRES_CONFIG, DATABASE_CONFIG
 from random import random
-
 import psycopg2
 import random
 from datetime import date, timedelta
 from tabulate import tabulate
 #from psycopg2 import extensions
 
-DATABASE_NAME = "e_commerce"
 table_names = ["Users", "Categories", "Products", "Orders", 
                        "OrderDetails", "Transactions", "Reviews", 
                        "Inventory", "Shipping"]
 
+def connect_postgres(dbname):
+    """Connect to the PostgreSQL using psycopg2 with default database
+       Return the connection"""
+    return psycopg2.connect(host=POSTGRES_CONFIG['HOST_NAME'], dbname=dbname, user=POSTGRES_CONFIG['USER_NAME'], password= POSTGRES_CONFIG['PASSWORD'], port=POSTGRES_CONFIG['PORT'])
 
-def connect_postgres(dbname='postgres'):
-    try:
-        # Defining parameters
-        user = 'postgres'
-        #dbname = dbname
-        host = 'localhost'
-        password = ''
-
-        # Connecting with PostgreSQL database
-        connection = psycopg2.connect(
-            user=user,
-            dbname=dbname,
-            host=host,
-            password=password
-        )
-
-        # Cursor object to execute SQL queries
-        cursor = connection.cursor()
-
-        print("Connected with postgres!")
-
-        # Return the connection
-        return connection
-
-    except (Exception, psycopg2.Error) as error:
-        print("Error connecting to PostgreSQL:", error)
-        return None
 
 def create_database(dbname):
-    connection = None
+    """Connect to the PostgreSQL by calling connect_postgres() function
+       Create a database named 'dbname' passed in argument
+       Close the connection"""
+    
+    conn = None
+    cur = None
     try:
-        connection = connect_postgres()
-        if connection:
-            connection.autocommit = True
-            cursor = connection.cursor()
-            create_db = "CREATE DATABASE " + DATABASE_NAME + ";"
+        conn = connect_postgres('postgres')
+        conn.autocommit = True
+        cur = conn.cursor()
 
-            # Creating the database
-            cursor.execute(create_db)
-            connection.commit()
+        # Check if the database already exists
+        cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (dbname,))
+        if cur.fetchone():
+            print(f"Database '{dbname}' already exists.")
+        else:
+            # Create the new database
+            cur.execute(f"CREATE DATABASE {dbname}")
+            print(f"Database '{dbname}' created successfully.")
 
-            print(f"Database {DATABASE_NAME} created!")
-            print("")
-            print("---------------------------------------")
-            print("")
-
-    except (Exception, psycopg2.Error) as error:
-        print("Error creating database:", error)
+    except Exception as error:
+        print(error)
 
     finally:
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
 
 
 def create_tables(conn):
@@ -507,9 +485,9 @@ def drop_all(conn):
 
 if __name__ == '__main__':
 
-    create_database(DATABASE_NAME)
+    create_database(DATABASE_CONFIG['DATABASE_NAME'])
 
-    with connect_postgres(dbname=DATABASE_NAME) as conn:
+    with connect_postgres(dbname=DATABASE_CONFIG['DATABASE_NAME']) as conn:
         conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
         create_tables(conn)
