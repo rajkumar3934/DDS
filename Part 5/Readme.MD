@@ -11,8 +11,8 @@
 #### from prettytable import PrettyTable
 
 ## Important notes:
-### It is important to download the docker and run the MongoDB image in the container before running the code
-### All the mock_data files are in json and need to be downloaded to insert the data into the collections
+#### It is important to download the docker and run the MongoDB image in the container before running the code
+#### All the mock_data files are in json and need to be downloaded to insert the data into the collections
 
 ## CRUD operations and implementation:
 #### Create 
