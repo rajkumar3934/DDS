@@ -23,7 +23,6 @@ def create_database(dbname):
     """Connect to the PostgreSQL by calling connect_postgres() function
        Create a database named 'dbname' passed in argument
        Close the connection"""
-    
     conn = None
     cur = None
     try:
@@ -325,4 +324,4 @@ if __name__ == '__main__':
         # drop_all(conn)
 
 
-        print('Done')
+        # print('Done')

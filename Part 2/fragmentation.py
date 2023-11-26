@@ -4,6 +4,8 @@ import psycopg2
 import random
 from datetime import date, timedelta
 from tabulate import tabulate
+from faker import Faker
+from datetime import datetime
 #from psycopg2 import extensions
 
 table_names = ["Users", "Categories", "Products", "Orders", 
@@ -19,18 +21,38 @@ def connect_postgres(dbname):
 
 def demonstrate_H_partition(conn):
     print("\n---------HORIZONTAL PARTITIONING ------------\n")
+    fake = Faker()
     try:
         cursor = conn.cursor()
         if conn and cursor:
-            insert_statement = f"""
-                INSERT INTO {table_names[0]} (username, first_name, last_name, email, password, address, phone_number, registration_date) 
-VALUES 
-    ('user3', 'first3', 'last3', 'user3@example.com', 'password3', '789 Tmepe St, City3', '123-456-7890', '2014-01-20 00:00:00'),
-    ('user4', 'first4', 'last4', 'user4@example.com', 'password4', '248 Dorsey St, City4', '234-567-8901', '2018-05-10 00:00:00');
-                """
-
-            cursor.execute(insert_statement)
-
+            for _ in range(10):
+                username = fake.user_name()
+                first_name = fake.first_name()
+                last_name = fake.last_name()
+                email = fake.email()
+                password = fake.password()
+                address = fake.address()
+                phone_number = fake.phone_number()
+                registration_date = fake.date_time_between_dates(datetime_start=datetime(2010,1,1), datetime_end=datetime(2015,12,31))
+        
+                cursor.execute(f"""
+                    INSERT INTO {table_names[0]} (username, first_name, last_name, email, password, address, phone_number, registration_date)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """, (username, first_name, last_name, email, password, address, phone_number, registration_date))
+            for _ in range(5):
+                username = fake.user_name()
+                first_name = fake.first_name()
+                last_name = fake.last_name()
+                email = fake.email()
+                password = fake.password()
+                address = fake.address()
+                phone_number = fake.phone_number()
+                registration_date = registration_date = fake.date_time_this_decade()
+        
+                cursor.execute(f"""
+                    INSERT INTO {table_names[0]} (username, first_name, last_name, email, password, address, phone_number, registration_date)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """, (username, first_name, last_name, email, password, address, phone_number, registration_date))
             conn.commit()
 
             cursor.execute(f"SELECT * FROM {table_names[0]};")
@@ -80,15 +102,24 @@ def vertical_partitioning(conn):
 
 def demonstrate_V_partition(conn):
     print("\n---------VERTICAL PARTITIONING ------------\n")
+    fake = Faker()
     try:
         cursor = conn.cursor()
         if conn and cursor:
-            insert_statement = f"""
-                INSERT INTO {table_names[2]} (product_name, description, product_price, category_id, product_quantity) 
-VALUES 
-    ('Jeans', 'Denim Bottomwear', 89.99, 2, 25)
-                """
-            cursor.execute(insert_statement)
+            cat_ids = []
+            cursor.execute("SELECT category_id FROM Categories")
+            cat_ids = [row[0] for row in cursor.fetchall()]
+            for _ in range(5):
+                product_name = fake.word().capitalize()  
+                description = fake.text(max_nb_chars=100)  
+                product_price = round(random.uniform(5, 200), 2) 
+                category_id = random.choice(cat_ids)
+                product_quantity = random.randint(0, 100)  
+                cursor.execute(f"""
+                    INSERT INTO {table_names[2]} (product_name, description, product_price, category_id, product_quantity)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (product_name, description, product_price, category_id, product_quantity))
+
 
             conn.commit()
 
@@ -123,7 +154,7 @@ if __name__ == '__main__':
     with connect_postgres(dbname=DATABASE_CONFIG['DATABASE_NAME']) as conn:
         conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
-        demonstrate_H_partition(conn)
+        # demonstrate_H_partition(conn)
         vertical_partitioning(conn)
         demonstrate_V_partition(conn)
 
@@ -138,5 +169,5 @@ if __name__ == '__main__':
         # drop_all(conn)
 
 
-        print('Done')
+        # print('Done')
 
