@@ -15,7 +15,7 @@
 #### All the mock_data files are in json and need to be downloaded to insert the data into the collections
 
 ## CRUD operations and implementation:
-#### Create 
-#### Read 
-#### Update 
-#### Delete 
+#### Create - It will create the required collections of documents
+#### Read - It will read the documents from the collection
+#### Update - Required documents are updated according to the needs
+#### Delete - Some documents are deleted from the collection
