@@ -4,6 +4,8 @@ import psycopg2
 import random
 from datetime import date, timedelta
 from tabulate import tabulate
+from faker import Faker
+import random
 #from psycopg2 import extensions
 
 def printStatements(message):
@@ -59,10 +61,8 @@ def execute_query(conn, query):
         with conn.cursor() as cur:
             # Execute the query
             cur.execute(query)
-
             # Print success message
             print("Query executed successfully")
-
             # Commit the transaction
             conn.commit()
     except (Exception, psycopg2.Error) as error:
@@ -70,7 +70,6 @@ def execute_query(conn, query):
         conn.rollback()
         print("Error executing query:", error)
         raise
-
 
 def create_tables(conn):
     try:
@@ -115,96 +114,128 @@ def create_partition_table_users(conn):
         print("Error creating partitions:", error)
 
 
+
 def insert_mock_data(conn):
+    fake = Faker()
     try:
         cursor = conn.cursor()
         if conn and cursor:
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[0]} (username, first_name, last_name, email, password, address, phone_number) 
-VALUES 
-    ('user1', 'first1', 'last1', 'user1@example.com', 'password1', '123 Main St, City1', '123-456-7890'),
-    ('user2', 'first2', 'last2', 'user2@example.com', 'password2', '456 Elm St, City2', '234-567-8901'),
-    ('user3', 'first3', 'last3', 'user3@example.com', 'password3', '789 Oak St, City3', '345-678-9012');
-                """
+            for _ in range(50):
+                username = fake.user_name()
+                first_name = fake.first_name()
+                last_name = fake.last_name()
+                email = fake.email()
+                password = fake.password()
+                address = fake.address()
+                phone_number = fake.phone_number()
+                registration_date = fake.date_time_this_decade()
+        
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[0]} (username, first_name, last_name, email, password, address, phone_number, registration_date)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """, (username, first_name, last_name, email, password, address, phone_number, registration_date))
 
-            cursor.execute(insert_statement)
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[1]} (category_name) 
-VALUES 
-    ('Electronics'),
-    ('Clothing'),
-    ('Home & Kitchen');
-                """
+            categories = ["Electronics", "Clothing", "Books", "Home & Garden", "Sports & Outdoors"]
+            for category_name in categories:
+                cursor.execute(f"""
+                INSERT INTO {TABLE_NAMES[1]} (category_name) VALUES (%s)
+                """, (category_name,))
 
-            cursor.execute(insert_statement)
+            cat_ids = []
+            cursor.execute("SELECT category_id FROM Categories")
+            cat_ids = [row[0] for row in cursor.fetchall()]
+            for _ in range(50):
+                product_name = fake.word().capitalize()  
+                description = fake.text(max_nb_chars=100)  
+                product_price = round(random.uniform(5, 200), 2) 
+                category_id = random.choice(cat_ids)
+                product_quantity = random.randint(0, 100)  
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[2]} (product_name, description, product_price, category_id, product_quantity)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (product_name, description, product_price, category_id, product_quantity))
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[2]} (product_name, description, product_price, category_id, product_quantity) 
-VALUES 
-    ('Smartphone', 'Latest smartphone model', 499.99, 1, 50),
-    ('Laptop', 'High-performance laptop', 899.99, 1, 30),
-    ('T-shirt', 'Cotton T-shirt', 19.99, 2, 100),
-    ('Dress Shirt', 'Formal dress shirt', 29.99, 2, 80),
-    ('Cookware Set', 'Non-stick cookware set', 79.99, 3, 20);
-                """
 
-            cursor.execute(insert_statement)
+            usrs = []
+            cursor.execute("SELECT user_id, registration_date FROM Users")
+            usrs = cursor.fetchall()
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[3]} (user_id, order_date, order_price) 
-VALUES 
-    (1, NOW(), 1000.00),
-    (2, NOW(), 52.99);
-                """
+            for _ in range(50):
+                user_id, registration_date = random.choice(usrs)
+                order_price = round(random.uniform(10, 1000), 2) 
+                order_date = fake.date_between(start_date=registration_date, end_date="today")
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[3]} (user_id, user_registration_date, order_price, order_date)
+                    VALUES (%s, %s, %s, %s)
+                """, (user_id, registration_date, order_price, order_date))
 
-            cursor.execute(insert_statement)
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[4]} (order_id, product_id, quantity, subtotal) 
-VALUES 
-    (1, 1, 2, 999.98),
-    (2, 3, 3, 59.97);
-                """
+            ord_ids = []
+            cursor.execute("SELECT order_id FROM Orders")
+            ord_ids = [row[0] for row in cursor.fetchall()]
+            prod_ids = []
+            cursor.execute("SELECT product_id FROM Products")
+            prod_ids = [row[0] for row in cursor.fetchall()]
+            for _ in range(50):
+                order_id = random.choice(ord_ids)
+                product_id = random.choice(prod_ids)
+                quantity = random.randint(1, 10)  
+                subtotal = round(random.uniform(10, 100), 2) 
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[4]} (order_id, product_id, quantity, subtotal)
+                    VALUES (%s, %s, %s, %s)
+                """, (order_id, product_id, quantity, subtotal))
 
-            cursor.execute(insert_statement)
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[5]} (order_id, transaction_date, transaction_status) 
-VALUES 
-    (1, NOW(), 'Pending'),
-    (2, NOW(), 'Accepted');
-                """
+            for _ in range(50):
+                order_id = random.choice(ord_ids)
+                transaction_date = fake.date_time_between(start_date="-1y", end_date="now")
+                transaction_status = random.choice(["Success", "Pending", "Failed"])
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[5]} (order_id, transaction_date, transaction_status)
+                    VALUES (%s, %s, %s)
+                """, (order_id, transaction_date, transaction_status))
 
-            cursor.execute(insert_statement)
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[6]} (product_id, user_id, rating, review_text) 
-VALUES 
-    (1, 1, 5, 'Great smartphone! Highly recommended.'),
-    (3, 2, 4, 'Nice T-shirt, comfortable to wear.');
-                """
+            for _ in range(50):
+                product_id = random.choice(prod_ids)
+                user_id, user_registration_date = random.choice(usrs)
+                rating = random.randint(1, 5)
+                review_text = fake.paragraph()
+                created_at = fake.date_time_between(start_date="-365d", end_date="now")
+        
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[6]} (product_id, user_id, user_registration_date, rating, review_text, created_at)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """, (product_id, user_id, user_registration_date, rating, review_text, created_at))
 
-            cursor.execute(insert_statement)
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[7]} (product_id, warehouse_name, stock_quantity, created_at) 
-VALUES 
-    (1, 'Warehouse A', 20, NOW()),
-    (1, 'Warehouse B', 30, NOW()),
-    (2, 'Warehouse A', 10, NOW());
-                """
 
-            cursor.execute(insert_statement)
+            for _ in range(50):
+                product_id = random.choice(prod_ids)
+                warehouse_name = fake.company()
+                stock_quantity = random.randint(0, 1000)
+                created_at = fake.date_time_between(start_date="-30d", end_date="now")
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[7]} (product_id, warehouse_name, stock_quantity, created_at)
+                    VALUES (%s, %s, %s, %s)
+                """, (product_id, warehouse_name, stock_quantity, created_at))
 
-            insert_statement = f"""
-                INSERT INTO {TABLE_NAMES[8]} (order_id, status, ship_date, estimated_arrival_date, delivered_date) 
-VALUES 
-    (1, 'Shipped', NOW(), NOW() + INTERVAL '5 days', NOW() + INTERVAL '7 days'),
-    (2, 'In Transit', NOW(), NOW() + INTERVAL '6 days', NULL);
-                """
 
-            cursor.execute(insert_statement)
+            for _ in range(1, 51):
+                order_id = random.choice(ord_ids)
+                status = random.choice(["Shipped", "Processing", "Delivered"])
+                ship_date = fake.date_time_between(start_date="-30d", end_date="now")
+                estimated_arrival_date = ship_date + timedelta(days=random.randint(1, 10))
+                delivered_date = estimated_arrival_date + timedelta(days=random.randint(1, 5)) if status == "Delivered" else None
+        
+                cursor.execute(f"""
+                    INSERT INTO {TABLE_NAMES[8]} (order_id, status, ship_date, estimated_arrival_date, delivered_date)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (order_id, status, ship_date, estimated_arrival_date, delivered_date))
+
+
             conn.commit()
 
             print(f"Inserted data!")
@@ -278,9 +309,9 @@ if __name__ == '__main__':
     with connect_postgres(dbname=DATABASE_CONFIG['DATABASE_NAME']) as conn:
         conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
-        create_tables(conn)
-        select_data(conn)
-        insert_mock_data(conn)
+        # create_tables(conn)
+        # select_data(conn)
+        # insert_mock_data(conn)
         select_data(conn)
 
 
