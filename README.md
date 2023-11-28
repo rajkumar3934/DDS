@@ -19,9 +19,7 @@ The project is divided into 6 parts and there is specific directory for each par
 Before starting with Part 1, follow these steps to create and configure your primary database:
 
 1. **Create Primary Database:**
-
-initdb -D /tmp/primary_db/
-
+   initdb -D /tmp/primary_db/
 
 2. **Configure `postgresql.conf` for Networking:**
 
