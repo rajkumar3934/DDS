@@ -1,0 +1,110 @@
+WEBVTT
+
+1
+00:00:01.950 --> 00:00:31.930
+Monalisa Dokania: The topic for our project is ecosphere, which is a distributed database system for an online e-commerce retailer. Our database addresses the challenges of ensuring data, consistency, availability and performance across distributed nodes. We have used postpay SQL. And python to implement this coming to the first part. This is the er diagram which consists of 9 tables based on this, our database e-commerce is having 9 main tables which consists of mock data for testing the data. Retrieval. For this mock data has been demonstrated in the project report.
+
+2
+00:00:32.119 --> 00:00:39.510
+Monalisa Dokania: We can see that the these are the 9 tables in Pg Admin, and the fragments of the users table
+
+3
+00:00:40.750 --> 00:00:44.139
+Monalisa Dokania: has also been created as users, old and users new.
+
+4
+00:00:44.210 --> 00:00:58.589
+Monalisa Dokania: So we have created a horizontal partition based on user registration date, the new users being those who registered after the 1,015. I will demonstrate the partition here. We can see that there are currently 73 rows in the users table.
+
+5
+00:00:58.650 --> 00:01:05.120
+Monalisa Dokania: If we insert 2 more rows into users, one with year 2021, and another with year, 2012.
+
+6
+00:01:05.230 --> 00:01:15.310
+Monalisa Dokania: Then if we look at the fragments, users old and users new, we will be able to see that the rows have been automatically added into the partitions towards the end.
+
+7
+00:01:22.640 --> 00:01:30.820
+Monalisa Dokania: Yes, so similarly, for vertical fragmentation, as you can see, we have created products, infant products, details, tables by splitting the product table vertically.
+
+8
+00:01:30.830 --> 00:01:42.700
+Monalisa Dokania: Since postgrad does not directly support vertical fragmentation, we have inserted data into the fragments using data from main products table. So there are 50 rows of mock data in each of these tables. Next, we will look at replication.
+
+9
+00:01:43.740 --> 00:02:03.310
+Rajkumar Kakumanu: So for the replication, we have created 2 database nodes. So one is primary and the other is replica, so which works as like a master and slave. So for any changes made in the primary node will automatically reflect it to the replica node. So let me show you an example for that. So in the primary node in the users table.
+
+10
+00:02:03.540 --> 00:02:08.530
+Rajkumar Kakumanu:  for the user number one, I'm updating the first name as
+
+11
+00:02:09.479 --> 00:02:11.640
+Rajkumar Kakumanu: as this.
+
+12
+00:02:12.600 --> 00:02:14.899
+Rajkumar Kakumanu: and I'm saving it to the database.
+
+13
+00:02:17.100 --> 00:02:20.099
+Rajkumar Kakumanu: So I'm connecting to the replica node.
+
+14
+00:02:21.800 --> 00:02:32.949
+Rajkumar Kakumanu: And I'm querying from the users table. And you can see the first name has been updated. So now query, optimization part will be covered by journey.
+
+15
+00:02:34.260 --> 00:03:00.860
+Naga Venkata Dharani Chinta: Also, for Part 3 in our database optimization strategy, we implemented strategic indexing on crucial columns like Category Id in the products, table and product id in the inventory table. We have ensured rapid and efficient data access across multiple nodes. We also embrace selected data, retrieval, avoiding the use of selection and instead targeting only necessary columns, significantly cutting down data, transfer and processing
+
+16
+00:03:01.000 --> 00:03:11.280
+our query leverage in our joint operations to effectively utilize these indexes for swift matching of rows, boosting, query, speed, and resource efficiently.
+
+17
+00:03:11.300 --> 00:03:19.159
+Rajkumar Kakumanu: Additionally, we have used the we have reduced the use of sub queries in favor of exist minimizing data movement across nodes
+
+18
+00:03:19.220 --> 00:03:23.210
+Naga Venkata Dharani Chinta: and thank you and for art, for I'll pass it to Rajkumar.
+
+19
+00:03:26.120 --> 00:03:35.040
+Rajkumar Kakumanu: So in our project we have configured an aurora postgres cluster. This setup includes a primary instance and a red replica.
+
+20
+00:03:35.200 --> 00:03:47.330
+Rajkumar Kakumanu: So Aurora automatically handles failover to the rate replica in case of a primer instance, failure ensuring high availability and data durability. Aurora's distributor and fault. Tolerant
+
+21
+00:03:47.570 --> 00:03:51.399
+Rajkumar Kakumanu: design ensures acid complaints even in a distributed setup.
+
+22
+00:03:51.430 --> 00:03:58.190
+Rajkumar Kakumanu: So in our project to show acid complaints in action. We have used threats.
+
+23
+00:03:58.310 --> 00:04:10.940
+Rajkumar Kakumanu: so we have used the threats to create multiple process where each thread performs a transaction, and all the transactions are concurrent. so the detailed explanation of the code has been provided in the report.
+
+24
+00:04:11.260 --> 00:04:20.970
+Rajkumar Kakumanu: To conclude, Amazon Aurora has been instrumental in our project for managing distributed and acid complaint transactions effectively and concurrently.
+
+25
+00:04:21.630 --> 00:04:24.419
+and the part 5 part will be explained by Hitakshi.
+
+26
+00:04:31.110 --> 00:04:48.079
+Hitaxi Harshadkumar Mistry: Mongotib is a Nosql database. It is implemented by running Bongo Tb. Adh. In the docker. Its advantages are flexible schema and pass queries. Here you can see we have created 9 collections for the database, and use the same schema which we have used in the
+
+27
+00:04:48.310 --> 00:04:55.900
+Hitaxi Harshadkumar Mistry: previous paths. Credit is implemented for all the collections and all the sample queries are mentioned in the report. Thank you.
+
