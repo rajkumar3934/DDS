@@ -37,5 +37,3 @@ Tools: MongoDB, Docker \
 Tasks - Data schema, Basic CRUD operations, sample queries with data retrieval operations
 
 ### Part 6: A 3-Minute Video Demo \
-Tools: OBS\
-Tasks - 
