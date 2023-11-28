@@ -154,7 +154,7 @@ if __name__ == '__main__':
     with connect_postgres(dbname=DATABASE_CONFIG['DATABASE_NAME']) as conn:
         conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
-        # demonstrate_H_partition(conn)
+        demonstrate_H_partition(conn)
         vertical_partitioning(conn)
         demonstrate_V_partition(conn)
 

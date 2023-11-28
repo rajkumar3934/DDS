@@ -156,7 +156,6 @@ def process_order(conn, user_id, product_id, quantity, order_price):
         with conn.cursor() as cursor:
             # Start a transaction
             cursor.execute("BEGIN;")
-
             # Insert a new order into the 'Orders' table and obtain the order ID
             cursor.execute(
                 "INSERT INTO Orders (users_id, order_price, order_date) VALUES (%s, %s, CURRENT_DATE) RETURNING orders_id;",

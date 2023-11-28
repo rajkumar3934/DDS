@@ -308,9 +308,9 @@ if __name__ == '__main__':
     with connect_postgres(dbname=DATABASE_CONFIG['DATABASE_NAME']) as conn:
         conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 
-        # create_tables(conn)
-        # select_data(conn)
-        # insert_mock_data(conn)
+        create_tables(conn)
+        select_data(conn)
+        insert_mock_data(conn)
         select_data(conn)
 
 
@@ -324,4 +324,4 @@ if __name__ == '__main__':
         # drop_all(conn)
 
 
-        # print('Done')
+        print('Done')

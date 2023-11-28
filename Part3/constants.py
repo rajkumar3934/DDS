@@ -1,11 +1,10 @@
 # Postgres configuration
 POSTGRES_CONFIG = {
     'HOST_NAME': 'localhost',
-    'USER_NAME': 'postgres',
-    'PASSWORD': 'postgres',
-    'PORT': 5432
+    'USER_NAME': '91767',
+    'PASSWORD': '',
+    'PORT': 5433
 }
-
 # Database information
 DATABASE_CONFIG = {
     'DATABASE_NAME': "e_commerce"

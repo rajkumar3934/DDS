@@ -35,10 +35,6 @@ ORDER_DETAILS_QUERY = f"""
             );
         """
 
-
-
-
-
 INVENTORY_QUERY = f"""
             CREATE TABLE IF NOT EXISTS {TABLE_NAMES[2]} (
                 inventory_id SERIAL PRIMARY KEY,
