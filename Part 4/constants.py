@@ -1,4 +1,5 @@
 # Postgres configuration
+# Rightnow we stopped the AWS Aurora cluster due to pricing constraints, if needed we will restart for verification
 POSTGRES_CONFIG = {
     'HOST_NAME': 'part-4.cluster-cbg6fltkvvl6.us-east-1.rds.amazonaws.com',
     'USER_NAME': 'postgres',
