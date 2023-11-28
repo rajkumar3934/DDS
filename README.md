@@ -19,7 +19,9 @@ The project is divided into 6 parts and there is specific directory for each par
 Before starting with Part 1, follow these steps to create and configure your primary database:
 
 1. **Create Primary Database:**
+   ```
    initdb -D /tmp/primary_db/
+   ```
 
 2. **Configure `postgresql.conf` for Networking:**
 
@@ -32,8 +34,11 @@ Before starting with Part 1, follow these steps to create and configure your pri
   ```
 
 3. **Create a Replication User:**
+   ```
    create user repuser replication;
-5. **AllowRemoteAccessin `pg_hba.conf`:**
+   ```
+
+4. **AllowRemoteAccessin `pg_hba.conf`:**
 
 - Add to `pg_hba.conf`:
   ```
@@ -41,11 +46,13 @@ Before starting with Part 1, follow these steps to create and configure your pri
   ```
 
 5. **Restart the PrimaryServer:**
-
+   ```
    pg_ctl -D /tmp/primary_db restart
+   ```
 6. **Configuring the Replica Server:**
-
+   ```
    pg_basebackup -h localhost -U repuser --checkpoint=fast -D /tmp/replica_db/ -R --slot=some_name -C --port=5433
+   ```
 7. **Update `postgresql.conf` in Replica Server:**
 
    - In `/tmp/replica_db/`, set `port = 5434`
