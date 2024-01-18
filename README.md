@@ -87,6 +87,3 @@ Tasks - Acid-compliant distributed transactions, concurrency control
 Tools: MongoDB, Docker 
 Tasks - Data schema, Basic CRUD operations, sample queries with data retrieval operations
 
-### Part 6: A 3-Minute Video Demo \
-https://asu.zoom.us/rec/share/XoDUKjzt76BRB4D6Ur5b86HzByoJBmTtGtGdfq0BzmwRbGVmEhVySULxTQcxZTuu.KeQtF9xsNrBzf6S-
-Passcode: *1hpb&Q4
